@@ -1,0 +1,170 @@
+<Window x:Name="MainWindowRoot"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:internal="using:Avalonia.Dialogs.Internal"
+    x:Class="PaintApp.UI.MainWindow"
+    xmlns:vm="clr-namespace:PaintApp"
+    x:DataType="vm:Src.DrawSettings"
+    Width="640"
+    Height="480"
+    Background="#D2E2F5FF">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        
+
+        <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
+            Orientation="Horizontal">
+
+            <Button Click="OnFileClick"
+                    ToolTip.Tip="Открыть файл">
+                    File
+            </Button>
+
+            <Button Click="OnHelpClick"
+                    ToolTip.Tip="О программе">
+                    Help
+            </Button>
+
+            <Button Click="OnSaveClick"
+                    ToolTip.Tip="Сохранить в PNG">
+                    Save
+            </Button>
+
+            <Button Click="OnEraseClick"
+                    ToolTip.Tip="Очистить всё">
+                    Clean
+            </Button>
+
+            <ComboBox HorizontalAlignment="Left"
+                IsEditable="False"
+                SelectedIndex="0"
+                Margin = "1,2,1,0"
+                ToolTip.Tip="Инструменты">
+                Tools
+
+                <ComboBoxItem>
+                    <RadioButton GroupName="Tools"
+                            Click="OnFillingClick"
+                            IsChecked="{Binding Tool, 
+                                Converter={StaticResource EnumNullableConverter}, 
+                                ConverterParameter=Filling}"
+                            ToolTip.Tip="Заливка">
+                        Filling
+                    </RadioButton>
+                </ComboBoxItem>
+
+                <ComboBoxItem>
+                    <RadioButton GroupName="Tools"
+                            Click="OnLineClick"
+                            IsChecked="{Binding Tool, 
+                                Converter={StaticResource EnumNullableConverter}, 
+                                ConverterParameter=Line}"
+                            ToolTip.Tip="Линия"
+                            Background="Transparent">
+                            Line
+                    </RadioButton>
+                </ComboBoxItem>
+
+                <ComboBoxItem>
+                    <RadioButton GroupName="Tools"
+                            Click="OnStampClick"
+                            IsChecked="{Binding Tool, 
+                                Converter={StaticResource EnumNullableConverter}, 
+                                ConverterParameter=Stamp}"
+                            ToolTip.Tip="Штамп"
+                            Background="Transparent">
+                            Stamp
+                    </RadioButton>
+                </ComboBoxItem>
+            </ComboBox>
+
+            <ColorPicker x:Name="Picker" 
+                    ToolTip.Tip="Выбор цвета"
+                    Color="{Binding Color, Converter={StaticResource AvaloniaColorConverter}, Mode=TwoWay}"/>
+
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" Grid.Column="0"
+                    Orientation="Vertical"
+                    VerticalAlignment="Center"> 
+
+            <Button ToolTip.Tip="Красный"
+                Tag="rgb(255, 0, 0)"
+                Click="OnColorClick">
+                <Border Width="30" Height="30" Background="Red"/>
+            </Button>
+
+            <Button ToolTip.Tip="Синий"
+                    Tag="rgb(0, 0, 255)"
+                    Click="OnColorClick">
+                <Border Width="30" Height="30" Background="Blue"/>
+            </Button>
+
+            <Button ToolTip.Tip="Жёлтый"
+                     Tag="rgb(255, 255, 0)"
+                    Click="OnColorClick">
+                <Border Width="30" Height="30" Background="Yellow"/>
+            </Button>
+
+            <Button ToolTip.Tip="Зелёный"
+                    Tag="rgb(0, 255, 0)"
+                    Click="OnColorClick">
+                <Border Width="30" Height="30" Background="rgb(0, 255, 0)"/>
+            </Button>
+
+            <ToggleButton Click="OnFillingClick"
+                    IsChecked="{Binding Tool, 
+                    Converter={StaticResource EnumNullableConverter}, ConverterParameter=Filling}"
+                    ToolTip.Tip="Заливка">
+                <Image Source="avares://PaintApp/Assets/fill.png"
+                    Width="30"
+                    Height="30"/>
+            </ToggleButton>
+
+            <ToggleButton Click="OnLineClick"
+                    IsChecked="{Binding Tool, 
+                    Converter={StaticResource EnumNullableConverter}, ConverterParameter=Line}"
+                    ToolTip.Tip="Линия">
+                <Image Source="avares://PaintApp/Assets/line.jpg"
+                    Width="30"
+                    Height="30"/>
+            </ToggleButton>
+
+            <ToggleButton Click="OnStampClick"
+                    IsChecked="{Binding Tool, 
+                    Converter={StaticResource EnumNullableConverter}, ConverterParameter=Stamp}"
+                    ToolTip.Tip="Штамп">
+                <Image Source="avares://PaintApp/Assets/stamp.jpg"
+                    Width="30"
+                    Height="30"/>
+            </ToggleButton>
+
+            <Button Click="OnEraseClick"
+                    ToolTip.Tip="Очистить всё">
+                <Image Source="avares://PaintApp/Assets/erase.jpg"
+                    Width="30"
+                    Height="30"/>
+            </Button>
+        </StackPanel>
+
+        <ScrollViewer Grid.Row="1" Grid.Column="1"
+                      HorizontalScrollBarVisibility="Auto" 
+                      VerticalScrollBarVisibility="Auto">
+            <Image x:Name="CanvasImage"
+                Width="{Binding #MainWindowRoot.CanvasWidth}" 
+                Height="{Binding #MainWindowRoot.CanvasHeight}"
+                Stretch="None"
+                PointerPressed="OnImagePointerPressed"/>
+        </ScrollViewer>
+    </Grid>
+</Window>
+
