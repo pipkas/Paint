@@ -48,6 +48,9 @@ public partial class MainWindow : Window, INotifyPropertyChanged
 
     private void InitBitmap()
     {
+        CanvasWidth = painter.Image.Width;
+        CanvasHeight = painter.Image.Height;
+
         Bitmap = new WriteableBitmap(
             new PixelSize(CanvasWidth , CanvasHeight),
             new Vector(96, 96),
@@ -170,12 +173,21 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         var picture = FileManager.LoadFromStream(stream);
 
         painter.Image = picture;
-        CanvasWidth = painter.Image.Width;
-        CanvasHeight = painter.Image.Height;
         InitBitmap();
         CanvasImage.Source = Bitmap;
         CanvasImage.Width = painter.Image.Width;
         CanvasImage.Height = painter.Image.Height;
+        Width = CanvasImage.Width + UISettings.DeltaWindowCanvasWidth;
+        Height = CanvasImage.Height + UISettings.DeltaWindowCanvasHeight;
+        CenterWindow();
+    }
+
+    private void CenterWindow()
+    {
+        var x = (Screens.Primary.Bounds.Width - (int)Width) / 2;
+        var y = (Screens.Primary.Bounds.Height - (int)Height) / 2;
+    
+        Position = new PixelPoint(x, y);
     }
 
     private void OnEraseClick(object? sender, RoutedEventArgs e)

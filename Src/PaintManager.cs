@@ -110,9 +110,7 @@ public class PaintManager: IPainter
             if (Image.IsInBounds(x, nextY) && Image.GetPixel(x, nextY).SequenceEqual(oldColor))
             {
                 stack.Push((x, nextY));
-                
-                var nextSpan = FindSpan(x, nextY, oldColor);
-                x = nextSpan.endX + 1;
+                x = FindSpan(x, nextY, oldColor).endX + 1;
                 continue;
             }
             x++;
