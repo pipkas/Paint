@@ -66,6 +66,7 @@ publish/
 *.nupkg.sha512
 *.snupkg
 *.symbols.nupkg
+*.sln
 
 # NuGet Packages
 packages/
